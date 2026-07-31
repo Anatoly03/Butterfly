@@ -2,8 +2,8 @@
 //! [axum] web server.
 
 use axum::{Router, routing::get};
-use sqlx::{Error, SqlitePool, sqlite::SqliteConnectOptions};
-use std::{str::FromStr, time::Duration};
+use sqlx::{SqlitePool, sqlite::SqliteConnectOptions};
+use std::str::FromStr;
 
 /// The entry point of the Butterfly backend application. This function starts the
 /// [axum] web server.
@@ -25,7 +25,7 @@ async fn main() {
     let options = SqliteConnectOptions::from_str("sqlite://.butterfly/data.db")
         .unwrap()
         .create_if_missing(true);
-    let pool = SqlitePool::connect_with(options).await.unwrap();
+    let _pool = SqlitePool::connect_with(options).await.unwrap();
 
     axum::serve(listener, app).await.unwrap();
 }
