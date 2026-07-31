@@ -21,24 +21,10 @@
 
 .messenger-sidebar {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
   min-height: 100vh;
   border-right: 1px solid var(--color-line);
   background: var(--color-surface);
-}
-
-.messenger-sidebar_header {
-  padding: 16px 20px;
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-line);
-}
-
-.messenger-title {
-  margin: 0;
-  color: var(--color-brand);
-  font-size: 2rem;
-  font-weight: 700;
-  text-align: center;
 }
 
 .messenger-sidebar_content {

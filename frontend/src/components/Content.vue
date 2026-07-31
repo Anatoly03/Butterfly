@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import ProfileHeader from "./ProfileHeader.vue";
 import type { ChatProfile, ChatMessage } from "../types/chat";
 
 withDefaults(
@@ -21,17 +22,8 @@ function send() {
 
 <template>
   <div class="grid grid-rows-[auto_minmax(0,1fr)_auto] min-h-0">
-    <!-- Profile -->
-    <header
-      v-if="profile"
-      class="flex items-center gap-3 px-5 py-3 bg-surface border-b border-line"
-    >
-      <img :src="profile.avatar" alt="" class="w-10 h-10 rounded-full" />
-      <div class="flex flex-col leading-tight">
-        <span class="font-semibold">{{ profile.name }}</span>
-        <span v-if="profile.status" class="text-sm text-muted">{{ profile.status }}</span>
-      </div>
-    </header>
+    <!-- Profile (the person we're chatting with) -->
+    <ProfileHeader v-if="profile" :profile="profile" />
 
     <!-- Messages -->
     <div class="min-h-0 overflow-auto flex flex-col gap-2 px-5 py-4">
@@ -55,7 +47,7 @@ function send() {
 
     <!-- Input -->
     <form
-      class="flex gap-2 px-5 py-3 bg-surface border-t border-line"
+      class="flex items-center gap-2 h-16 px-5 bg-surface border-t border-line"
       @submit.prevent="send"
     >
       <input

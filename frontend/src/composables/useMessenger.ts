@@ -15,6 +15,14 @@ const users = ref<SidebarUser[]>([
   { id: 3, name: "Charlie", avatar: "https://i.pravatar.cc/64?img=3" },
 ]);
 
+/** The signed-in user (shown in the sidebar header). */
+const me = ref<ChatProfile>({
+  avatar: "https://i.pravatar.cc/64?img=8",
+  name: "You",
+  status: "Available",
+});
+
+/** The person the active conversation is with (shown in the chat header). */
 const profile = ref<ChatProfile>({
   avatar: "https://i.pravatar.cc/64?img=1",
   name: "Alice",
@@ -37,5 +45,9 @@ export function useMessenger() {
     });
   }
 
-  return { users, profile, messages, sendMessage };
+  function openSettings() {
+    // Placeholder — wire up a settings view/modal here later.
+  }
+
+  return { me, users, profile, messages, sendMessage, openSettings };
 }
