@@ -17,7 +17,7 @@ async fn main() {
 
     // run our app with hyper, listening globally on specified port
     let hostname = format!("0.0.0.0:{}", dotenv::var("PORT").unwrap_or("3000".to_string()));
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let listener = tokio::net::TcpListener::bind(&hostname).await.unwrap();
     println!("Listening on {hostname}");
 
     axum::serve(listener, app).await.unwrap();
