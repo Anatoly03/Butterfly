@@ -8,8 +8,9 @@ API and server component for the Butterfly project.
 
 ### Migrating Database
 
-First install [cargo-binstall](https://docs.rs/crate/cargo-binstall/latest) and then install the `sqlx` command with the following command to access sqlx commands.
+First install [`cargo-binstall`](https://docs.rs/crate/cargo-binstall/latest) and then install the [`sqlx–cli`](https://lib.rs/crates/sqlx-cli) command with `cargo binstall sqlx-cli`. Afterwards you can configuration the environment variables with `source` and run the `sqlx` commands.
 
 ```sh
-cargo binstall sqlx-cli
+source .env
+sqlx migrate run
 ```
