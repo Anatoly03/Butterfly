@@ -2,6 +2,13 @@
 
 General front end component for the Butterfly project, managing the client binary and the desktop and mobile applications.
 
+### Building and Running
+
+```sh
+pnpm i
+pnpm run dev
+```
+
 ## Tauri + Vue + TypeScript
 
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
