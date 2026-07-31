@@ -1,6 +1,6 @@
 [workspace]
 resolver="3"
 members=[
-    "backend/butterfly-api",
-    "backend/butterfly-macro",
+    "backend/api",
+    "backend/macros",
 ]

@@ -116,13 +116,15 @@ name = "butterfly-api"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "butterfly-macros",
  "dotenv",
+ "serde",
  "sqlx",
  "tokio",
 ]
 
 [[package]]
-name = "butterfly-macro"
+name = "butterfly-macros"
 version = "0.1.0"
 
 [[package]]

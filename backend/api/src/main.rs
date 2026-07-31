@@ -1,6 +1,9 @@
 //! The entry point of the Butterfly backend application. This module starts the
 //! [axum] web server.
 
+mod messages;
+mod users;
+
 use axum::{Router, routing::get};
 use sqlx::{SqlitePool, sqlite::SqliteConnectOptions};
 use std::str::FromStr;
