@@ -1,33 +1,40 @@
+<script setup lang="ts">
+import Sidebar from "./Sidebar.vue";
+import Content from "./Content.vue";
+import type { SidebarUser, ChatProfile, ChatMessage } from "../types/chat";
+
+withDefaults(
+  defineProps<{
+    users?: SidebarUser[];
+    profile?: ChatProfile;
+    messages?: ChatMessage[];
+  }>(),
+  { users: () => [], profile: undefined, messages: () => [] },
+);
+
+defineEmits<{ (e: "send", text: string): void }>();
+</script>
+
 <template>
   <main class="messenger-layout">
     <aside class="messenger-sidebar" aria-label="Messenger sidebar">
-      <header class="messenger-sidebar__header">
+      <header class="messenger-sidebar_header">
         <slot name="sidebar-header">
-          <div class="layout-placeholder">Sidebar header</div>
+          <h1 class="messenger-title">Butterfly</h1>
         </slot>
       </header>
 
-      <div class="messenger-sidebar__content">
-        <slot name="sidebar">
-          <div class="layout-placeholder layout-placeholder--fill">Sidebar</div>
-        </slot>
-      </div>
+      <section class="messenger-sidebar_content">
+        <Sidebar :users="users" />
+      </section>
     </aside>
 
     <section class="messenger-main" aria-label="Messenger main area">
-      <header class="messenger-topbar">
-        <slot name="topbar">
-          <div class="layout-placeholder">Top bar</div>
-        </slot>
-      </header>
-
-      <section class="messenger-content" aria-label="Messenger content">
-        <slot>
-          <div class="layout-placeholder layout-placeholder--fill">
-            Main content
-          </div>
-        </slot>
-      </section>
+      <Content
+        :profile="profile"
+        :messages="messages"
+        @send="$emit('send', $event)"
+      />
     </section>
   </main>
 </template>
