@@ -103,7 +103,7 @@ pub fn sql_type(ty: &Type) -> String {
         ty => {
             panic!(
                 "#[collection] macro could not determine SQL for the following type: {}",
-                ty.to_token_stream().to_string()
+                ty.to_token_stream()
             )
         }
     }
