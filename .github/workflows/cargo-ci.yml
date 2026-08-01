@@ -1,6 +1,6 @@
 # Builds, tests, and lints all Rust code in the Butterfly repository.
 
-name: Cargo Build
+name: Cargo CI
 
 on:
   # Allows you to run this workflow manually from the Actions tab.
@@ -18,7 +18,7 @@ env:
 
 jobs:
   cargo-ci:
-    name: Run General Cargo related CI.
+    name: Build, Check, Lint and Test Cargo.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
