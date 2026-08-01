@@ -1,12 +1,23 @@
 //! The database wrapper of the Butterfly backend application. This module provides
 //! communication with the [sqlx] interface.
 
+#[cfg(test)]
+mod tests;
+
 use sqlx::{Pool, Sqlite, SqlitePool, migrate::MigrateError, sqlite::SqliteConnectOptions};
 use std::{println, str::FromStr};
 
-/// Initializes an asynchronous [Pool] to [Sqlite]
+/// Initializes an asynchronous [Pool] to the main [Sqlite] database.
+///
+/// **Note.** In testing environment `#[cfg(test)]` this overwrites the Sqlite URL to be
+/// in-memory to ensure that every test gets its' own context.
 pub async fn init() -> Result<Pool<Sqlite>, sqlx::Error> {
-    let options = SqliteConnectOptions::from_str("sqlite://.butterfly/data.db")
+    #[cfg(not(test))]
+    const SQLITE_URL: &str = "sqlite://.butterfly/data.db";
+    #[cfg(test)]
+    const SQLITE_URL: &str = "sqlite::memory:";
+
+    let options = SqliteConnectOptions::from_str(SQLITE_URL)
         .unwrap()
         .create_if_missing(true);
     SqlitePool::connect_with(options).await
