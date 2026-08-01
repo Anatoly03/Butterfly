@@ -17,9 +17,12 @@ pub async fn init() -> Result<Pool<Sqlite>, sqlx::Error> {
     #[cfg(test)]
     const SQLITE_URL: &str = "sqlite::memory:";
 
-    let options = SqliteConnectOptions::from_str(SQLITE_URL)
-        .unwrap()
-        .create_if_missing(true);
+    let mut options = SqliteConnectOptions::from_str(SQLITE_URL).unwrap();
+
+    if dotenvy::var("DATABASE_CREATE_MISSING").is_ok_and(|k| k != "0" && k != "false") {
+        options = options.create_if_missing(true);
+    }
+
     SqlitePool::connect_with(options).await
 }
 
