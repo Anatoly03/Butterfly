@@ -12,10 +12,8 @@ pub async fn no_migrations() {
             .fetch_one(&pool)
             .await;
 
-    assert!(
-        result.is_err(),
-        "the `_sqlx_migrations` table should not yet exist"
-    );
+    // verify "_sqlx_migrations" does not exist
+    assert!(result.is_err(), "`_sqlx_migrations` table should not exist");
 }
 
 /// This is a pair of two tests, the other is called [no_migrations]. This test verifies
@@ -31,12 +29,6 @@ pub async fn migrations() {
             .await;
 
     // verify "_sqlx_migrations" exists
-    assert!(
-        result.is_ok(),
-        "the `_sqlx_migrations` table should be created"
-    );
-    assert!(
-        result.unwrap().0 > 0,
-        "there should be at least one migration"
-    );
+    assert!(result.is_ok(), "`_sqlx_migrations` table should be created");
+    assert!(result.unwrap().0 > 0, "there should be >= 1 migrations");
 }
