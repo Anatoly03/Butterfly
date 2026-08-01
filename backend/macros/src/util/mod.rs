@@ -4,7 +4,7 @@ use core::panic;
 use std::{format, matches};
 
 use quote::ToTokens;
-use syn::{GenericArgument, PathArguments, Type};
+use syn::{Attribute, GenericArgument, PathArguments, Type};
 
 /// Is true if `ty` is an Option. In that case, SQL`NULL` will map to Rust [None].
 ///
@@ -135,4 +135,16 @@ pub fn _full_sql_type(ty: &Type) -> String {
     } else {
         format!("{type_name} NOT NULL")
     }
+}
+
+/// For a given attribute vector, consumes a specific attribute and
+/// return it if it exists, removing it from the vector.
+pub fn consume_attrs<K: AsRef<str>>(name: K, args: &mut Vec<Attribute>) -> Vec<Attribute> {
+    let result = args
+        .iter()
+        .filter(|attr: &&Attribute| attr.meta.path().is_ident(name.as_ref()))
+        .cloned()
+        .collect::<Vec<_>>();
+    args.retain(|attr: &Attribute| !attr.meta.path().is_ident(name.as_ref()));
+    return result;
 }
