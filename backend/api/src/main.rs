@@ -14,8 +14,8 @@ async fn main() {
 
     // create sqlite pool and migrate
     let pool = database::init().await.unwrap();
-    if dotenvy::var("DATABASE_AUTOMIGRATE").map_or(false, |k| k != "0" && k != "false") {
-        let _ = database::migrate(&pool).await.unwrap();
+    if dotenvy::var("DATABASE_AUTOMIGRATE").is_ok_and(|k| k != "0" && k != "false") {
+        database::migrate(&pool).await.unwrap();
     }
 
     // build our application with a single route

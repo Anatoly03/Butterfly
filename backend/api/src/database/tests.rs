@@ -22,7 +22,7 @@ pub async fn no_migrations() {
 #[tokio::test]
 pub async fn migrations() {
     let pool = init().await.unwrap();
-    let () = migrate(&pool).await.unwrap();
+    migrate(&pool).await.unwrap();
     let result: Result<(i64,), sqlx::Error> =
         sqlx::query_as("SELECT COUNT(*) FROM _sqlx_migrations")
             .fetch_one(&pool)
