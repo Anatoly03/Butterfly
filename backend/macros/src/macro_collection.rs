@@ -22,7 +22,7 @@ pub(crate) fn collection(_meta: TokenStream, mut item: ItemStruct) -> TokenStrea
         .fields
         .iter_mut()
         .filter_map(|field| {
-            let is_primary = util::consume_attrs("primary", &mut field.attrs).len() > 0;
+            let is_primary = !util::consume_attrs("primary", &mut field.attrs).is_empty();
             match is_primary {
                 true => field.ident.clone(),
                 false => None,

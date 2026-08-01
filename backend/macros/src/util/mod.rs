@@ -146,5 +146,5 @@ pub fn consume_attrs<K: AsRef<str>>(name: K, args: &mut Vec<Attribute>) -> Vec<A
         .cloned()
         .collect::<Vec<_>>();
     args.retain(|attr: &Attribute| !attr.meta.path().is_ident(name.as_ref()));
-    return result;
+    result
 }
