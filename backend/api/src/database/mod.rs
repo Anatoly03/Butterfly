@@ -4,7 +4,11 @@
 #[cfg(test)]
 mod tests;
 
-use sqlx::{Pool, Sqlite, SqlitePool, migrate::MigrateError, sqlite::SqliteConnectOptions};
+use sqlx::{
+    Pool, Sqlite, SqlitePool,
+    migrate::MigrateError,
+    sqlite::{SqliteConnectOptions, SqliteJournalMode},
+};
 use std::{println, str::FromStr};
 
 /// Initializes an asynchronous [Pool] to the main [Sqlite] database.
@@ -21,6 +25,11 @@ pub async fn init() -> Result<Pool<Sqlite>, sqlx::Error> {
 
     if dotenvy::var("DATABASE_CREATE_MISSING").is_ok_and(|k| k != "0" && k != "false") {
         options = options.create_if_missing(true);
+    }
+
+    if let Ok(journal_mode_str) = dotenvy::var("DATABASE_JOURNAL_MODE") {
+        let mode = journal_mode_str.parse::<SqliteJournalMode>().unwrap();
+        options = options.journal_mode(mode)
     }
 
     SqlitePool::connect_with(options).await
