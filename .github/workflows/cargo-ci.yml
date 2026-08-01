@@ -1,0 +1,49 @@
+# Builds, tests, and lints all Rust code in the Butterfly repository.
+
+name: Cargo CI
+
+on:
+  # Allows you to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+#   # Allows this workflow to be called by other workflows.
+#   workflow_call:
+  pull_request:
+    paths:
+      - "**/*.rs"
+      - "**/*.toml"
+      - "**/migrations/*.sql" # Ensure a change to migrations forces rebuild.
+      - "Cargo.lock"
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  cargo-ci:
+    name: Build, Check, Lint and Test Cargo.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Install Rust stable toolchain
+      - name: Install Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          components: clippy, rustfmt
+
+      # Smart caching for Rust (handles ~/.cargo and target/)
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+
+      # Format check
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      # Clippy lint
+      - name: Run Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      # Run tests with verbose output. The workspace will be built implicitly
+      # by cargo test.
+      - name: Run tests
+        run: cargo test --verbose --all-features --workspace
+  
