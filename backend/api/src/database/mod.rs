@@ -3,6 +3,7 @@
 
 #[cfg(test)]
 mod tests;
+mod users;
 
 use sqlx::{
     Pool, Sqlite, SqlitePool,
