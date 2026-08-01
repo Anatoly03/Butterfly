@@ -127,7 +127,7 @@ pub(crate) fn collection(meta: CollectionMacroMeta, mut item: ItemStruct) -> Tok
         impl #struct_name {
             /// The name of the collections' table in the database. This is used
             /// for generating SQL queries and must be unique within the database.
-            /// 
+            ///
             /// # SQL Example
             ///
             /// ```sql
