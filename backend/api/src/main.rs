@@ -1,12 +1,9 @@
 //! The entry point of the Butterfly backend application. This module starts the
 //! [axum] web server.
 
-mod messages;
-mod users;
+mod database;
 
 use axum::{Router, routing::get};
-use sqlx::{SqlitePool, sqlite::SqliteConnectOptions};
-use std::str::FromStr;
 
 /// The entry point of the Butterfly backend application. This function starts the
 /// [axum] web server.
@@ -14,6 +11,12 @@ use std::str::FromStr;
 async fn main() {
     dotenv::dotenv().ok();
     std::fs::create_dir_all(".butterfly").unwrap();
+
+    // create sqlite pool and migrate
+    let pool = database::init().await.unwrap();
+    if dotenv::var("DATABASE_AUTOMIGRATE").map_or(false, |k| k != "0" && k != "false") {
+        let _ = database::migrate(&pool).await.unwrap();
+    }
 
     // build our application with a single route
     let app = Router::new().route("/", get(|| async { "Hello, World!" }));
@@ -23,12 +26,6 @@ async fn main() {
     let hostname = format!("0.0.0.0:{port}");
     let listener = tokio::net::TcpListener::bind(&hostname).await.unwrap();
     println!("Listening on {hostname}");
-
-    // production ready sqlx pool configuration
-    let options = SqliteConnectOptions::from_str("sqlite://.butterfly/data.db")
-        .unwrap()
-        .create_if_missing(true);
-    let _pool = SqlitePool::connect_with(options).await.unwrap();
 
     axum::serve(listener, app).await.unwrap();
 }
