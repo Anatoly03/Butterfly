@@ -21,12 +21,12 @@ function send() {
 </script>
 
 <template>
-  <div class="grid grid-rows-[auto_minmax(0,1fr)_auto] min-h-0">
+  <div class="grid grid-rows-[auto_minmax(0,1fr)_auto] min-h-0 h-full">
     <!-- Profile (the person we're chatting with) -->
     <ProfileHeader v-if="profile" :profile="profile" />
 
     <!-- Messages -->
-    <div class="min-h-0 overflow-auto flex flex-col gap-2 px-5 py-4">
+    <div class="min-h-0 overflow-y-auto flex flex-col gap-2 px-5 py-4">
       <div
         v-for="(message, index) in messages"
         :key="message.id ?? index"

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SidebarUser from "./SidebarUser.vue";
+import SidebarSearch from "./SidebarSearch.vue";
 
 type User = {
   id?: string | number;
@@ -14,7 +15,7 @@ withDefaults(defineProps<{ users?: User[] }>(), {
 
 <template>
   <div class="sidebar">
-    <slot name="sidebar"></slot>
+    <SidebarSearch />
 
     <SidebarUser
       v-for="user in users"
