@@ -3,6 +3,7 @@
 mod macro_collection;
 mod util;
 
+use macro_collection::CollectionMacroMeta;
 use proc_macro::TokenStream;
 use syn::{ItemStruct, parse_macro_input};
 
@@ -10,6 +11,7 @@ use syn::{ItemStruct, parse_macro_input};
 /// struct will be extended with database access methods.
 #[proc_macro_attribute]
 pub fn collection(args: TokenStream, input: TokenStream) -> TokenStream {
+    let meta = parse_macro_input!(args as CollectionMacroMeta);
     let item = parse_macro_input!(input as ItemStruct);
-    macro_collection::collection(args.into(), item).into()
+    macro_collection::collection(meta, item).into()
 }
